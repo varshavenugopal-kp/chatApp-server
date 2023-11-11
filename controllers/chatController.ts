@@ -9,18 +9,19 @@ import mongoose from "mongoose";
 //  }
 const createChat = async (req:Request , res:Response) => {
     try{
-       const {senderId,receiverId} = req.body
-       console.log("sender receiver",senderId,receiverId);
+       const {userid,receiverid} = req.body
+       console.log("sender receiver",userid,receiverid);
+       console.log("ioioio");
        
-       const senders=new mongoose.Types.ObjectId(senderId)
-       const receiver=new mongoose.Types.ObjectId(receiverId)
-       if(!senderId || !receiverId){
+    //    const senders=new mongoose.Types.ObjectId(userid)
+    //    const receiver=new mongoose.Types.ObjectId(receiverId)
+       if(!userid || !receiverid){
         res.json({error:"Something went wrong"})
        }else{
         console.log("llllll");
         
             const isChat = await chatModel.findOne({
-                $and:[{users:{$elemMatch:{$eq:senders}}},{users:{$elemMatch:{$eq:receiver}}}]
+                $and:[{users:{$elemMatch:{$eq:userid}}},{users:{$elemMatch:{$eq:receiverid}}}]
             }).populate("users","-password")
             console.log(isChat);
             
@@ -29,7 +30,7 @@ const createChat = async (req:Request , res:Response) => {
             }else{
                 const chatData:Chat={
                     chatName:'sender',
-                    users:[senders,receiver],
+                    users:[userid,receiverid],
                 }
                 console.log(chatData);
                 
@@ -50,11 +51,17 @@ const createChat = async (req:Request , res:Response) => {
 
 const getAllChat = async(req:Request,res:Response)=>{
     try{
-        const userId = req.params.userId    
+        
+        const userId = req.params.userid    
+        console.log(userId);
+        console.log(await chatModel.find());
+        
         const fullChat = await chatModel.find({users:{$in:[userId]}}).populate("users","-password").populate("latestMessage").sort({updatedAt:-1})
+        console.log(fullChat,"kloooiijkjjhj");
+        
         res.json({status:true,fullchat:fullChat})
     }catch(err){
-        console.error('Error creating course:', err);  
+        console.error('Error:', err);  
     }
 }
 

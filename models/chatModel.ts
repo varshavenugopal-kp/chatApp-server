@@ -3,22 +3,22 @@ import { Chat } from "../interfaces/chat";
 
 export interface chat extends Document {
     chatName:string,
-    users:mongoose.Types.ObjectId[],
+    users:String[],
     latestMessage?:mongoose.Types.ObjectId,
 }
 
 const chatSchema: Schema<chat> = new Schema<chat>({
     chatName:{
-        type:'string',
+        type:String,
         required:true
     },
     users:[{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         ref:'users'
     }],
     latestMessage:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'message'
+        ref:'messages'
     }
 },
 {

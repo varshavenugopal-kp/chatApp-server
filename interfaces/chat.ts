@@ -4,14 +4,14 @@ import { User } from "./user";
 
 export interface Chat{
     chatName:string,
-    users:mongoose.Types.ObjectId[],
+    users:String[],
     latestMessage?:mongoose.Types.ObjectId,
     
 }
 
 export interface Message{
-    sender:mongoose.Types.ObjectId
-    content:string
+    sender:String,
+    content:String,
     chat:mongoose.Types.ObjectId,
 }
 
@@ -19,7 +19,7 @@ export interface newMessageRecieved{
     _id:string,
     sender:Sender,
     content:string,
-    chat:ChatInMsg
+    chatId:ChatInMsg
 
 }
 interface Sender{
